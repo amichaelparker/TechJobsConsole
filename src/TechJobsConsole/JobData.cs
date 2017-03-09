@@ -13,7 +13,9 @@ namespace TechJobsConsole
         public static List<Dictionary<string, string>> FindAll()
         {
             LoadData();
-            return AllJobs;
+            var jobList = AllJobs.ToList();
+
+            return jobList;
         }
 
         /*
@@ -35,7 +37,7 @@ namespace TechJobsConsole
                     values.Add(aValue);
                 }
             }
-            return values;
+            return values.ToList();
         }
 
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
@@ -55,7 +57,7 @@ namespace TechJobsConsole
                 }
             }
 
-            return jobs;
+            return jobs.ToList();
         }
 
         /*
@@ -77,7 +79,7 @@ namespace TechJobsConsole
                 }
             }
 
-            return searchResults;
+            return searchResults.ToList();
 
         }
 
@@ -119,6 +121,8 @@ namespace TechJobsConsole
                 {
                     rowDict.Add(headers[i], row[i]);
                 }
+                //rowDict.Add("herpes", "penis");
+                //AllJobs.Add(rowDict);
                 AllJobs.Add(rowDict);
             }
 

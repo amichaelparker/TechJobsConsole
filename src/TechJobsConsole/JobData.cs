@@ -59,7 +59,7 @@ namespace TechJobsConsole
         }
 
         /*
-         * Cut down version of FindByColumnAndValue
+         * Find by search value alone, case insensitive
          */
         public static List<Dictionary<string, string>> FindByValue(string value)
         {

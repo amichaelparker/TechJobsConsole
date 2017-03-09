@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace TechJobsConsole
@@ -41,6 +42,7 @@ namespace TechJobsConsole
                     else
                     {
                         List<string> results = JobData.FindAll(columnChoice);
+                        results.Sort(); // Sort FindAll list alphabetically
 
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
                         foreach (string item in results)
@@ -116,25 +118,30 @@ namespace TechJobsConsole
 
             return choiceKeys[choiceIdx];
         }
-
+        /*
+         * Print function for job search
+         */
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
             string separator = "*****";
 
-            if (someJobs.Count != 0)
-            {
-                foreach (Dictionary<string, string> job in someJobs)
-                {
-                    Console.WriteLine("\n" + separator);
-                    foreach (KeyValuePair<string, string> kvp in job)
-                    {
-                        Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
-                    }
-                    Console.WriteLine(separator);
-                }
-            } else
+            if (someJobs.Count == 0)
             {
                 Console.WriteLine("\nNo jobs found for the given search criteria.");
+                return;
+            }
+
+            // Dictionary sorting by key value based on http://stackoverflow.com/a/9627653
+            var jobSort = someJobs.OrderBy(kvp => kvp.ContainsKey("name") ? kvp["name"] : string.Empty);
+
+            foreach (Dictionary<string, string> job in jobSort)
+            {
+                Console.WriteLine("\n" + separator);
+                foreach (KeyValuePair<string, string> kvp in job)
+                {
+                    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
+                }
+                Console.WriteLine(separator);
             }
         }
     }

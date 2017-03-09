@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Text;
 
 namespace TechJobsConsole
@@ -18,7 +18,7 @@ namespace TechJobsConsole
 
         /*
          * Returns a list of all values contained in a given column,
-         * without duplicates. 
+         * without duplicates.
          */
         public static List<string> FindAll(string column)
         {
@@ -49,13 +49,36 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
             }
 
             return jobs;
+        }
+
+        /*
+         * Cut down version of FindByColumnAndValue
+         */
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            LoadData();
+
+            value = value.ToLower();
+
+            List<Dictionary<string, string>> searchResults = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                if (row.Any(kvp => kvp.Value.ToLower().Contains(value)))
+                {
+                    searchResults.Add(row);
+                }
+            }
+
+            return searchResults;
+
         }
 
         /*
